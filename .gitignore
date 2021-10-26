@@ -33,3 +33,4 @@ gen
 hs_err_pid*
 
 target/
+.env
