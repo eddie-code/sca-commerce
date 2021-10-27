@@ -1,0 +1,32 @@
+server:
+  port: 7001
+  servlet:
+    context-path: /sca-commerce-admin
+
+spring:
+  application:
+    name: sca-commerce-admin
+  cloud:
+    nacos:
+      # 服务注册发现
+      discovery:
+        enabled: true # 如果不想使用 Nacos 进行服务注册和发现, 设置为 false 即可
+        #server-addr: ${NACOS_ADDR:127.0.0.1}:8848
+        server-addr: ${NACOS_ADDR_1:192.168.3.250}:8848,${NACOS_ADDR_2:127.0.0.1}:8849,${NACOS_ADDR_3:127.0.0.1}:8850 # Nacos 服务器地址
+        namespace: ${NAMESPACE_ID:1adcfdd8-5763-4768-9a15-9c7157988950}
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+  thymeleaf:
+    check-template: false
+    check-template-location: false
+
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'  # 需要开放的端点。默认值只打开 health 和 info 两个端点。通过设置 *, 可以开放所有端点
+  endpoint:
+    health:
+      show-details: always

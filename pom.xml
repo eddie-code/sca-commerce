@@ -11,6 +11,7 @@
         <module>sca-commerce-common</module>
         <module>sca-commerce-mvc-config</module>
         <module>sca-commerce-alibaba-nacos-client</module>
+        <module>sca-commerce-admin</module>
     </modules>
 
     <packaging>pom</packaging>
