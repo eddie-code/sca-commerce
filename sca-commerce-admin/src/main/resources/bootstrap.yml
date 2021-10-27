@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: sca-commerce-admin
+  security:
+    user:
+      name: ${ADMIN_SECURITY_USER:admin}
+      password: ${ADMIN_SECURITY_PASSWORD:123456}
   cloud:
     nacos:
       # 服务注册发现
@@ -17,6 +21,8 @@ spring:
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
+          user.name: ${ADMIN_SECURITY_USER:admin}
+          user.password: ${ADMIN_SECURITY_PASSWORD:123456}
   thymeleaf:
     check-template: false
     check-template-location: false
