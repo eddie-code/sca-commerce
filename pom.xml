@@ -7,6 +7,10 @@
     <groupId>com.edcode.commerce</groupId>
     <artifactId>sca-commerce</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>sca-commerce-common</module>
+        <module>sca-commerce-mvc-config</module>
+    </modules>
 
     <packaging>pom</packaging>
 
