@@ -10,6 +10,7 @@
     <modules>
         <module>sca-commerce-common</module>
         <module>sca-commerce-mvc-config</module>
+        <module>sca-commerce-alibaba-nacos-client</module>
     </modules>
 
     <packaging>pom</packaging>
