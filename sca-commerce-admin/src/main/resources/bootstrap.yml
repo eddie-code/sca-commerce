@@ -26,6 +26,24 @@ spring:
   thymeleaf:
     check-template: false
     check-template-location: false
+  # 被监控的应用状态变更为 DOWN、OFFLINE、UNKNOWN 时, 会自动发出告警: 实例的状态、原因、实例地址等信息
+  # 需要在 pom.xml 文件中添加 spring-boot-starter-mail 依赖
+  # 配置发送告警的邮箱服务器
+  # 但是, 这个要能连接上, 否则会报错
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: ${ADMIN_EMAIL_USERNAME:xxx@qq.com}
+    password: ${ADMIN_EMAIL_PASSWORD:123456}
+    default-encoding: UTF-8
+  # 监控告警通知
+  boot:
+    admin:
+      notify:
+        mail:
+          from: ${spring.mail.username}
+          to: ${ADMIN_EMAIL_USERNAME:xxx@qq.com}
+          cc: ${ADMIN_EMAIL_USERNAME:xxx@qq.com}
 
 # 暴露端点
 management:

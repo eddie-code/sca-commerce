@@ -35,6 +35,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <!-- 实现对 Java Mail 的自动化配置 -->
+        <!-- https://blog.csdn.net/yimcarson/article/details/84936440 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.edcode.commerce</groupId>
             <artifactId>sca-commerce-mvc-config</artifactId>
