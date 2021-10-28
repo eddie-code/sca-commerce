@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <!-- 模块名及描述信息 -->
-    <name>e-commerce-alibaba-nacos-client</name>
+    <name>sca-commerce-alibaba-nacos-client</name>
     <description>Nacos Client</description>
 
     <dependencies>

@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <!-- 模块名及描述信息 -->
-    <name>e-commerce-admin</name>
+    <name>sca-commerce-admin</name>
     <description>监控服务器</description>
 
     <dependencies>
