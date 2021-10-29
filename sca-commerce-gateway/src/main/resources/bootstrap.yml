@@ -36,3 +36,11 @@ management:
   endpoint:
     health:
       show-details: always
+
+# 网关配置类, 是网关的数据, GatewayConfig.java 读取的配置
+nacos:
+  gateway:
+    route:
+      config:
+        data-id: sca-commerce-gateway-router
+        group: sca-commerce
