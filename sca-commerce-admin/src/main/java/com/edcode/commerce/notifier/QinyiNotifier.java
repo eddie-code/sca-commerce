@@ -24,7 +24,7 @@ public class QinyiNotifier extends AbstractEventNotifier {
     }
 
     /**
-     * <h2>实现对事件的通知</h2>
+     * 实现对事件的通知
      * */
     @Override
     protected Mono<Void> doNotify(InstanceEvent event, Instance instance) {

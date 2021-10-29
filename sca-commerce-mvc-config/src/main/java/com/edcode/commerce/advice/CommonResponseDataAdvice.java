@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
 
 	/**
-	 * <h2>判断是否需要对响应进行处理</h2>
+	 * 判断是否需要对响应进行处理
 	 */
 	@Override
 	@SuppressWarnings("all")
