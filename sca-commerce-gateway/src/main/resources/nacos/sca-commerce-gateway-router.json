@@ -1,0 +1,25 @@
+[
+  {
+    "id": "sca-commerce-nacos-client",
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/edcode/scacommerce-nacos-client/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "lb://sca-commerce-nacos-client",
+    "filters": [
+      {
+        "name": "HeaderToken"
+      },
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": "1"
+        }
+      }
+    ]
+  }
+]
