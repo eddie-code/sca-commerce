@@ -38,6 +38,7 @@ public class TokenParseUtil {
         }
 
 		try {
+            log.info("公钥：{}",getPublicKey());
 			Jws<Claims> claimsJws = parseToken(token, getPublicKey());
 			Claims body = claimsJws.getBody();
 
