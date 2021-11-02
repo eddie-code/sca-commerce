@@ -50,7 +50,7 @@ public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest serverHttpRequest,
                                   ServerHttpResponse serverHttpResponse) {
 
-		log.debug("CommonResponseDataAdvice ==> beforeBodyWrite: [{}], [{}]", o.toString(), methodParameter);
+//		log.debug("CommonResponseDataAdvice ==> beforeBodyWrite: [{}], [{}]", o.toString(), methodParameter);
 
 		// 定义最终的返回对象
 		CommonResponse<Object> response = new CommonResponse<>(0, "");

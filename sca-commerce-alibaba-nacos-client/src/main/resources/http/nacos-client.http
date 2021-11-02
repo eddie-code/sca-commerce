@@ -2,4 +2,14 @@
 GET http://127.0.0.1:8000/scacommerce-nacos-client/nacos-client/service-instance
 Accept: application/json
 
+### 动态从 Nacos Server 中获取配置信息
+GET http://127.0.0.1:8000/scacommerce-nacos-client/nacos-client/project-config
+Accept: application/json
+
+### 查看 Sleuth 跟踪信息
+GET http://127.0.0.1:9001/edcode/scacommerce-nacos-client/sleuth/trace-info
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiZjQ3M2NhZjctY2RjMi00ZmE4LWExNzQtZjZhYmQ5ZDFjMzAzIiwiZXhwIjoxNjM1ODY4ODAwfQ.iTtQE2gHzjPxVP5SEFHrDBkvrzI-yt6oy-w1x--Q3ahhTvYLTiYnvndtIx7IIyYipr_ayZnAQyluPt3oiLaS80r9qByaN3zQF-6gBW_wu_fd0yd89hIjPnQeP1mY2NcchV2FaMUW7Jlq8CUDPurEhW4GUDXOqBXgmxai5UTu4yoXBUfyXUXznKTx697cGo5aoVKTAKvMReJg-77n5sQuafZNDu6pz2D1KMvEucNyZtbXw0JRIl1CsK777Jt3IG1bnOnwRBt8o1tkodZ3zJbfgTGVCHJmfEuUnXwdf4DLAq568pNVvylPLh4_r-UUGGxE6Az9XwOtl1w4vzK1M2ATzw
+token: edcode
+
 ###
