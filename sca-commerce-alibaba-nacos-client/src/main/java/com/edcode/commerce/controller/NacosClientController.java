@@ -1,5 +1,6 @@
 package com.edcode.commerce.controller;
 
+import com.edcode.commerce.config.ProjectConfig;
 import com.edcode.commerce.service.NacosClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +25,22 @@ public class NacosClientController {
 
     private final NacosClientService nacosClientService;
 
+    private final ProjectConfig projectConfig;
+
     /**
      * 根据 service id 获取服务所有的实例信息
      */
     @GetMapping("/service-instance")
     public List<ServiceInstance> logNacosClientInfo(@RequestParam(defaultValue = "sca-commerce-nacos-client") String serviceId) {
-        log.info("coming in log nacos client info: [{}]", serviceId);
+        log.info("正在登录nacos客户端信息: [{}]", serviceId);
         return nacosClientService.getNacosClientInfo(serviceId);
     }
 
-
+    /**
+     * 动态获取 Nacos 中的配置信息
+     */
+    @GetMapping("/project-config")
+    public ProjectConfig getProjectConfig() {
+        return projectConfig;
+    }
 }
