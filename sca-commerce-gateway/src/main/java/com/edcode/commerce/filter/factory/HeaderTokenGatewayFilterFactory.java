@@ -1,4 +1,4 @@
-package com.edcode.commerce.factory;
+package com.edcode.commerce.filter.factory;
 
 import com.edcode.commerce.filter.HeaderTokenGatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
