@@ -21,5 +21,29 @@
         }
       }
     ]
+  },
+  {
+    "id": "sca_commerce_authority_login",
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/edcode/sca-commerce/login"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "http://localhost:9001/"
+  },
+  {
+    "id": "sca_commerce_authority_register",
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/edcode/sca-commerce/register"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "http://localhost:9001/"
   }
 ]
