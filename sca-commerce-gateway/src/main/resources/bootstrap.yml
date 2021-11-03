@@ -24,6 +24,16 @@ spring:
   #          uri: 127.0.0.1:8080/user/{id} # 匹配后路由地址
   #          predicates: # 断言, 路径相匹配的进行路由
   #            - Path=/user/{id}
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
+    producer:
+      retries: 3
+    consumer:
+      auto-offset-reset: latest
+  zipkin:
+    sender:
+      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
+    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
   main:
     allow-bean-definition-overriding: true  # 因为将来会引入很多依赖, 难免有重名的 bean
 

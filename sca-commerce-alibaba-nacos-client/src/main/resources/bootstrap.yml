@@ -17,6 +17,16 @@ spring:
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
+    producer:
+      retries: 3
+    consumer:
+      auto-offset-reset: latest
+  zipkin:
+    sender:
+      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
+    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
 
 # 暴露端点
 management:

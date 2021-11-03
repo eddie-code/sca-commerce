@@ -13,13 +13,20 @@
 --
 -- https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql
 --
--- 后台运行：STORAGE_TYPE=mysql MYSQL_USER=root MYSQL_PASS=123456 MYSQL_HOST=127.0.0.1 MYSQL_TCP_PORT=3306 --MYSQL_DB=sca-zipkin nohup java -jar zipkin.jar &
+-- 后台运行：nohup java -jar zipkin.jar --STORAGE_TYPE=mysql --MYSQL_USER=root --MYSQL_PASS=123456 --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin &
 --
--- 前台运行：STORAGE_TYPE=mysql MYSQL_USER=root MYSQL_PASS=123456 MYSQL_HOST=127.0.0.1 MYSQL_TCP_PORT=3306 --MYSQL_DB=sca-zipkin java -jar zipkin.jar
+-- 前台运行：java -jar zipkin.jar --STORAGE_TYPE=mysql --MYSQL_USER=root --MYSQL_PASS=123456 --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin
 --
+-- Kafka前台运行：java -DKAFKA_BOOTSTRAP_SERVERS=127.0.0.1:9092 -jar zipkin.jar --STORAGE_TYPE=mysql --MYSQL_USER=root --MYSQL_PASS=123456 --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin
+--
+-- Kafka后台运行：nohup java -DKAFKA_BOOTSTRAP_SERVERS=127.0.0.1:9092 -jar zipkin.jar --STORAGE_TYPE=mysql --MYSQL_USER=root --MYSQL_PASS=123456 --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin &
 
 
-CREATE DATABASE `sca-zipkin` /*!40100 DEFAULT CHARACTER SET utf8 */;
+SET GLOBAL innodb_file_format=Barracuda;
+
+show global variables like 'innodb_file_format';
+
+create database if not exists zipkin; /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 use sca-zipkin;
 
