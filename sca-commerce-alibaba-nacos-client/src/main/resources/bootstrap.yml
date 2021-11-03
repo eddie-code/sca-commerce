@@ -27,6 +27,12 @@ spring:
     sender:
       type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
     base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
+  sleuth:
+    sampler:
+      # RateLimitingSampler 抽样策略，设置了限速采样，spring.sleuth.sampler.probability 属性值无效
+      rate: 100 # 每秒间隔接受的 trace 量
+      # Probability 抽样策略
+      probability: 1.0 # 采样比例，1.0 表示 100%, 默认：0.1
 
 # 暴露端点
 management:
