@@ -24,6 +24,7 @@ public class LoginUserInfoInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         // 部分请求不需要带有身份信息, 即白名单
         if (checkWhiteListUrl(request.getRequestURI())) {
             return true;
@@ -59,7 +60,7 @@ public class LoginUserInfoInterceptor implements HandlerInterceptor {
 
     /**
      * 在请求完全结束后调用, 常用于清理资源等工作
-     * */
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         // 判断 ThreadLocal 是否有用户信息
@@ -72,7 +73,7 @@ public class LoginUserInfoInterceptor implements HandlerInterceptor {
     /**
      * 校验是否是白名单接口
      * swagger2 接口
-     * */
+     */
     private boolean checkWhiteListUrl(String url) {
         return StringUtils.containsAny(
                 url,
