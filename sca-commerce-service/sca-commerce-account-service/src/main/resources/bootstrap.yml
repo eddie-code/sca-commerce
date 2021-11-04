@@ -1,0 +1,69 @@
+server:
+  port: 8003
+  servlet:
+    context-path: /scacommerce-account-service
+
+spring:
+  application:
+    name: sca-commerce-account-service
+  cloud:
+    nacos:
+      # 服务注册发现
+      discovery:
+        enabled: true # 如果不想使用 Nacos 进行服务注册和发现, 设置为 false 即可
+        #server-addr: ${NACOS_ADDR:127.0.0.1}:8848
+        server-addr: ${NACOS_ADDR_1:127.0.0.1}:8848,${NACOS_ADDR_2:127.0.0.1}:8849,${NACOS_ADDR_3:127.0.0.1}:8850 # Nacos 服务器地址
+        namespace: ${NAMESPACE_ID:1adcfdd8-5763-4768-9a15-9c7157988950}
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
+    producer:
+      retries: 3
+    consumer:
+      auto-offset-reset: latest
+  zipkin:
+    sender:
+      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
+    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
+  sleuth:
+    sampler:
+      # RateLimitingSampler 抽样策略，设置了限速采样，spring.sleuth.sampler.probability 属性值无效
+      rate: 100 # 每秒间隔接受的 trace 量
+      # Probability 抽样策略
+      probability: 1.0 # 采样比例，1.0 表示 100%, 默认：0.1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+    open-in-view: false
+  datasource:
+    # 数据源
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:sca_commerce}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 4
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 45000
+      auto-commit: true
+      pool-name: ImoocEcommerceHikariCP
+
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

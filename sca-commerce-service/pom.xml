@@ -13,6 +13,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>sca-commerce-service-config</module>
+        <module>sca-commerce-account-service</module>
     </modules>
     <packaging>pom</packaging> <!-- 父模块不能 jar 只能是 pom -->
 
