@@ -54,12 +54,14 @@ public class ScaCommerceBalance implements Serializable {
     /**
      * 创建时间
      */
+    @CreatedDate
     @Column(name = "create_time", nullable = false)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @LastModifiedDate
     @Column(name = "update_time", nullable = false)
     private Date updateTime;
 
