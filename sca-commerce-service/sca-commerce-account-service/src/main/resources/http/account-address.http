@@ -1,0 +1,45 @@
+### 创建用户地址信息
+POST http://127.0.0.1:9001/edcode/scacommerce-account-service/address/create-address
+Content-Type: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNGNiMTg2NWYtN2EzMy00MjY2LWJiYjctYjdlZDY2NWZiZTAwIiwiZXhwIjoxNjM2NDczNjAwfQ.SUoIOcN5o9na1YKHeK0zTx2IWXjxIvu5Kkw3ndh7zLz61G1d-KJv3Ncmpi-PsALFWcQBxoWouZQIWoIaCufwsBLMCqP0xFD-iGdxcDK-pz03TOQgGwj4ncOFFdpoR3T3Qy-mnUTb2BJK18pC322GcilVO1aBlQ2aAFas78_bJe8nHEibetBJ68i5zRHX6jG3DAd33Lry1cUaQIAdimwBCaSld9bAv6dk3qpgzIs6AakDz_ctogSDhYCWT3yG2NRwGa4CSrz2QxxjcP-46FtGFty9w_EHJxP7h8QTMQs5JIFI7oQxFujEE9iMGASZsRy2Hd2iDj9rzlQlX5Cs9jpAnw
+
+{
+  "userId": 10,
+  "addressItems": [
+    {
+      "username": "Eddie_Lee",
+      "phone": "12345678910",
+      "province": "广东省",
+      "city": "广州市",
+      "addressDetail": "天河区"
+    }
+  ]
+}
+
+### 当前登录用户地址信息
+GET http://127.0.0.1:9001/edcode/scacommerce-account-service/address/current-address
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNGNiMTg2NWYtN2EzMy00MjY2LWJiYjctYjdlZDY2NWZiZTAwIiwiZXhwIjoxNjM2NDczNjAwfQ.SUoIOcN5o9na1YKHeK0zTx2IWXjxIvu5Kkw3ndh7zLz61G1d-KJv3Ncmpi-PsALFWcQBxoWouZQIWoIaCufwsBLMCqP0xFD-iGdxcDK-pz03TOQgGwj4ncOFFdpoR3T3Qy-mnUTb2BJK18pC322GcilVO1aBlQ2aAFas78_bJe8nHEibetBJ68i5zRHX6jG3DAd33Lry1cUaQIAdimwBCaSld9bAv6dk3qpgzIs6AakDz_ctogSDhYCWT3yG2NRwGa4CSrz2QxxjcP-46FtGFty9w_EHJxP7h8QTMQs5JIFI7oQxFujEE9iMGASZsRy2Hd2iDj9rzlQlX5Cs9jpAnw
+
+### 通过 id 获取用户地址信息
+GET http://127.0.0.1:9001/edcode/scacommerce-account-service/address/address-info?id=1
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNGNiMTg2NWYtN2EzMy00MjY2LWJiYjctYjdlZDY2NWZiZTAwIiwiZXhwIjoxNjM2NDczNjAwfQ.SUoIOcN5o9na1YKHeK0zTx2IWXjxIvu5Kkw3ndh7zLz61G1d-KJv3Ncmpi-PsALFWcQBxoWouZQIWoIaCufwsBLMCqP0xFD-iGdxcDK-pz03TOQgGwj4ncOFFdpoR3T3Qy-mnUTb2BJK18pC322GcilVO1aBlQ2aAFas78_bJe8nHEibetBJ68i5zRHX6jG3DAd33Lry1cUaQIAdimwBCaSld9bAv6dk3qpgzIs6AakDz_ctogSDhYCWT3yG2NRwGa4CSrz2QxxjcP-46FtGFty9w_EHJxP7h8QTMQs5JIFI7oQxFujEE9iMGASZsRy2Hd2iDj9rzlQlX5Cs9jpAnw
+
+### 获取用户地址信息
+POST http://127.0.0.1:9001/edcode/scacommerce-account-service/address/address-info-by-table-id
+Content-Type: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNGNiMTg2NWYtN2EzMy00MjY2LWJiYjctYjdlZDY2NWZiZTAwIiwiZXhwIjoxNjM2NDczNjAwfQ.SUoIOcN5o9na1YKHeK0zTx2IWXjxIvu5Kkw3ndh7zLz61G1d-KJv3Ncmpi-PsALFWcQBxoWouZQIWoIaCufwsBLMCqP0xFD-iGdxcDK-pz03TOQgGwj4ncOFFdpoR3T3Qy-mnUTb2BJK18pC322GcilVO1aBlQ2aAFas78_bJe8nHEibetBJ68i5zRHX6jG3DAd33Lry1cUaQIAdimwBCaSld9bAv6dk3qpgzIs6AakDz_ctogSDhYCWT3yG2NRwGa4CSrz2QxxjcP-46FtGFty9w_EHJxP7h8QTMQs5JIFI7oQxFujEE9iMGASZsRy2Hd2iDj9rzlQlX5Cs9jpAnw
+
+{
+  "ids": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
+}
+
+###
