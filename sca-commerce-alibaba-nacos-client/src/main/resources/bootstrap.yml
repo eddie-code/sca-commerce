@@ -33,6 +33,11 @@ spring:
       rate: 100 # 每秒间隔接受的 trace 量
       # Probability 抽样策略
       probability: 1.0 # 采样比例，1.0 表示 100%, 默认：0.1
+  redis:
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000
 
 # 暴露端点
 management:

@@ -41,6 +41,11 @@ spring:
       max-lifetime: 45000
       auto-commit: true
       pool-name: ScaCommerceHikariCP
+  redis:
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000
 
 # 暴露端点
 management:

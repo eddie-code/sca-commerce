@@ -36,6 +36,11 @@ spring:
     base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
   main:
     allow-bean-definition-overriding: true  # 因为将来会引入很多依赖, 难免有重名的 bean
+  redis:
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000
 
 # 暴露端点
 management:
