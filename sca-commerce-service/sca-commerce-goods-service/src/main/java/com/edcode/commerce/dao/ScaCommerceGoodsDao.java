@@ -15,7 +15,7 @@ import java.util.Optional;
  *              PagingAndSortingRepository 实现分页和排序的功能
  *
  */
-public interface EcommerceGoodsDao extends PagingAndSortingRepository<ScaCommerceGoods, Long> {
+public interface ScaCommerceGoodsDao extends PagingAndSortingRepository<ScaCommerceGoods, Long> {
 
 	/**
 	 * 根据查询条件查询商品表, 并限制返回结果
