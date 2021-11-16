@@ -2,6 +2,7 @@ package com.edcode.commerce.service.async;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.edcode.commerce.constant.AsyncTaskConstant;
 import com.edcode.commerce.constant.AsyncTaskStatusEnum;
 import com.edcode.commerce.goods.GoodsInfo;
 import com.edcode.commerce.vo.AsyncTaskInfo;
@@ -41,7 +42,7 @@ public class AsyncTaskManager {
         taskInfo.setStatus(AsyncTaskStatusEnum.STARTED);
         taskInfo.setStartTime(new Date());
         // 初始化的时候就要把异步任务执行信息放入到存储容器中
-        redisTemplate.opsForValue().set(taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
         return taskInfo;
     }
 
@@ -59,7 +60,7 @@ public class AsyncTaskManager {
      * 设置异步任务执行状态信息
      */
     public void setTaskInfo(AsyncTaskInfo taskInfo) {
-        redisTemplate.opsForValue().set(taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
     }
 
     /**
