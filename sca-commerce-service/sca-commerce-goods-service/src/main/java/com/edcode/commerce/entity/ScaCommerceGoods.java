@@ -124,8 +124,8 @@ public class ScaCommerceGoods implements Serializable {
 	private Date updateTime;
 
 	/**
-	 * <h2>将 GoodsInfo 转成实体对象</h2>
-	 * */
+	 * 将 GoodsInfo 转成实体对象
+	 */
 	public static ScaCommerceGoods to(GoodsInfo goodsInfo) {
 		ScaCommerceGoods scaCommerceGoods = new ScaCommerceGoods();
 		scaCommerceGoods.setGoodsCategory(GoodsCategory.of(goodsInfo.getGoodsCategory()));
@@ -136,6 +136,7 @@ public class ScaCommerceGoods implements Serializable {
 		// TODO 可以增加一个审核的过程: 后续有空在搞
 		scaCommerceGoods.setGoodsStatus(GoodsStatus.ONLINE);
 		scaCommerceGoods.setPrice(goodsInfo.getPrice());
+		// 总供应量、 库存 初始化时候应该一样
 		scaCommerceGoods.setSupply(goodsInfo.getSupply());
 		scaCommerceGoods.setInventory(goodsInfo.getSupply());
 		scaCommerceGoods.setGoodsProperty(
@@ -146,8 +147,8 @@ public class ScaCommerceGoods implements Serializable {
 	}
 
 	/**
-	 * <h2>将实体对象转成 GoodsInfo 对象</h2>
-	 * */
+	 * 将实体对象转成 GoodsInfo 对象
+	 */
 	public GoodsInfo toGoodsInfo() {
 		GoodsInfo goodsInfo = new GoodsInfo();
 		goodsInfo.setId(this.id);

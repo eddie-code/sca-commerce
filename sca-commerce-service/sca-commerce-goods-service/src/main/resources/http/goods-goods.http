@@ -1,0 +1,57 @@
+### 根据 TableId 查询详细商品信息
+POST http://127.0.0.1:9001/edcode/scacommerce-goods-service/goods/goods-info
+Content-Type: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNmFiOWJhYTgtZmI2Yi00Y2I5LTg5MzUtZmMzMjkzMWMzNDZlIiwiZXhwIjoxNjM3MDc4NDAwfQ.eLAursjozS_FfabWDDUk5_EV61Lmpxfb9dlDWvnEQ4H4_a_vg_F_mQbk2FeQm12Tz81a1noeo6zZtMD9kRO427AYw9HHu6jqWGHyZojrOGeLD3nySANuzc7synrCSDgBDIbaaunUfX3dJqdhdQUD7TA_GhgfNw_VSTPcpotN2GfvPbqu0B404Ben_jFjw0lis5bOUwFWHRzHhYpJsfZlhwu43-w16GGVthLerar70qarPHm668xrRjViiN-pM2YtWdVwbRLz4YZB3bvqT9PPImBnc5ArpFi22ZLMFKZcaybHC2rlwKpZHC8EY6jgNhmy2qtoh96pCHtA1uziNCxd4w
+
+{
+  "ids": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
+}
+
+
+### 根据分页查询简单商品信息
+GET http://127.0.0.1:9001/edcode/scacommerce-goods-service/goods/page-simple-goods-info?page=2
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNmFiOWJhYTgtZmI2Yi00Y2I5LTg5MzUtZmMzMjkzMWMzNDZlIiwiZXhwIjoxNjM3MDc4NDAwfQ.eLAursjozS_FfabWDDUk5_EV61Lmpxfb9dlDWvnEQ4H4_a_vg_F_mQbk2FeQm12Tz81a1noeo6zZtMD9kRO427AYw9HHu6jqWGHyZojrOGeLD3nySANuzc7synrCSDgBDIbaaunUfX3dJqdhdQUD7TA_GhgfNw_VSTPcpotN2GfvPbqu0B404Ben_jFjw0lis5bOUwFWHRzHhYpJsfZlhwu43-w16GGVthLerar70qarPHm668xrRjViiN-pM2YtWdVwbRLz4YZB3bvqT9PPImBnc5ArpFi22ZLMFKZcaybHC2rlwKpZHC8EY6jgNhmy2qtoh96pCHtA1uziNCxd4w
+
+
+### 根据 TableId 查询简单商品信息: 完整的 goods cache
+### 第二步验证, 删掉 cache
+### 第三步验证, 删除 cache 中其中一个商品
+POST http://127.0.0.1:9001/edcode/scacommerce-goods-service/goods/simple-goods-info
+Content-Type: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNmFiOWJhYTgtZmI2Yi00Y2I5LTg5MzUtZmMzMjkzMWMzNDZlIiwiZXhwIjoxNjM3MDc4NDAwfQ.eLAursjozS_FfabWDDUk5_EV61Lmpxfb9dlDWvnEQ4H4_a_vg_F_mQbk2FeQm12Tz81a1noeo6zZtMD9kRO427AYw9HHu6jqWGHyZojrOGeLD3nySANuzc7synrCSDgBDIbaaunUfX3dJqdhdQUD7TA_GhgfNw_VSTPcpotN2GfvPbqu0B404Ben_jFjw0lis5bOUwFWHRzHhYpJsfZlhwu43-w16GGVthLerar70qarPHm668xrRjViiN-pM2YtWdVwbRLz4YZB3bvqT9PPImBnc5ArpFi22ZLMFKZcaybHC2rlwKpZHC8EY6jgNhmy2qtoh96pCHtA1uziNCxd4w
+
+{
+  "ids": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
+}
+
+
+### 扣减商品库存
+PUT http://127.0.0.1:9001/edcode/scacommerce-goods-service/goods/deduct-goods-inventory
+Content-Type: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiNmFiOWJhYTgtZmI2Yi00Y2I5LTg5MzUtZmMzMjkzMWMzNDZlIiwiZXhwIjoxNjM3MDc4NDAwfQ.eLAursjozS_FfabWDDUk5_EV61Lmpxfb9dlDWvnEQ4H4_a_vg_F_mQbk2FeQm12Tz81a1noeo6zZtMD9kRO427AYw9HHu6jqWGHyZojrOGeLD3nySANuzc7synrCSDgBDIbaaunUfX3dJqdhdQUD7TA_GhgfNw_VSTPcpotN2GfvPbqu0B404Ben_jFjw0lis5bOUwFWHRzHhYpJsfZlhwu43-w16GGVthLerar70qarPHm668xrRjViiN-pM2YtWdVwbRLz4YZB3bvqT9PPImBnc5ArpFi22ZLMFKZcaybHC2rlwKpZHC8EY6jgNhmy2qtoh96pCHtA1uziNCxd4w
+
+[
+  {
+    "goodsId": 1,
+    "count": 100
+  },
+  {
+    "goodsId": 2,
+    "count": 34
+  }
+]

@@ -11,16 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author eddie.lee
  * @blog blog.eddilee.cn
  * @description 异步任务执行管理器
- * 
+ *
  *              对异步任务进行包装管理, 记录并塞入异步任务执行信息
  */
 @Slf4j
@@ -28,21 +26,28 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AsyncTaskManager {
 
-    private final StringRedisTemplate redisTemplate;
+    private final Map<String, AsyncTaskInfo> taskContainer = new HashMap<>(16);
 
     private final IAsyncService asyncService;
+
+    public final StringRedisTemplate stringRedisTemplate;
 
     /**
      * 初始化异步任务
      */
     public AsyncTaskInfo initTask() {
+
         AsyncTaskInfo taskInfo = new AsyncTaskInfo();
         // 设置一个唯一的异步任务 id, 只要唯一即可
         taskInfo.setTaskId(UUID.randomUUID().toString());
         taskInfo.setStatus(AsyncTaskStatusEnum.STARTED);
         taskInfo.setStartTime(new Date());
+
         // 初始化的时候就要把异步任务执行信息放入到存储容器中
-        redisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
+//        taskContainer.put(taskInfo.getTaskId(), taskInfo);
+
+        stringRedisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo), 3600, TimeUnit.SECONDS);
+
         return taskInfo;
     }
 
@@ -50,6 +55,7 @@ public class AsyncTaskManager {
      * 提交异步任务
      */
     public AsyncTaskInfo submit(List<GoodsInfo> goodsInfos) {
+
         // 初始化一个异步任务的监控信息
         AsyncTaskInfo taskInfo = initTask();
         asyncService.asyncImportGoods(goodsInfos, taskInfo.getTaskId());
@@ -60,17 +66,18 @@ public class AsyncTaskManager {
      * 设置异步任务执行状态信息
      */
     public void setTaskInfo(AsyncTaskInfo taskInfo) {
-        redisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo),1000 , TimeUnit.SECONDS);
-    }
+//        taskContainer.put(taskInfo.getTaskId(), taskInfo);
 
+        stringRedisTemplate.opsForValue().set(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskInfo.getTaskId(), JSON.toJSONString(taskInfo), 3600, TimeUnit.SECONDS);
+    }
     /**
      * 获取异步任务执行状态信息
      */
-	public AsyncTaskInfo getTaskInfo(String taskId) {
-		JSONObject asyncTaskInfo = JSONObject.parseObject(
-		        redisTemplate.opsForValue().get(taskId)
+    public AsyncTaskInfo getTaskInfo(String taskId) {
+        return JSON.parseObject(
+                stringRedisTemplate.opsForValue().get(AsyncTaskConstant.SCACOMMERCE_ASYNC_TASK_KEY + taskId),
+                AsyncTaskInfo.class
         );
-		return JSON.toJavaObject(asyncTaskInfo, AsyncTaskInfo.class);
-	}
-
+        //        return taskContainer.get(taskId);
+    }
 }

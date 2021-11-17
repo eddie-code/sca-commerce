@@ -45,5 +45,25 @@
       }
     ],
     "uri": "http://localhost:9001/"
+  },
+  {
+    "id": "sca-commerce-goods-service",
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/edcode/scacommerce-goods-service/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "lb://sca-commerce-goods-service",
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": "1"
+        }
+      }
+    ]
   }
 ]
