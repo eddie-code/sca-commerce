@@ -1,0 +1,20 @@
+### 获取 Token
+POST http://127.0.0.1:8000/scacommerce-nacos-client/communication/rest-template
+Content-Type: application/json
+
+{
+  "username": "eddie@qq.com",
+  "password": "25d55ad283aa400af464c76d713c07ad"
+}
+
+
+### 获取 Token, 带有负载均衡
+POST http://127.0.0.1:8000/scacommerce-nacos-client/communication/rest-template-load-balancer
+Content-Type: application/json
+
+{
+  "username": "eddie@qq.com",
+  "password": "25d55ad283aa400af464c76d713c07ad"
+}
+
+###
