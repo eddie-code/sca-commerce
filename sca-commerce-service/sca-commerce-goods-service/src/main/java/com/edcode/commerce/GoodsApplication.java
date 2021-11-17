@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  *
  * 启动依赖组件/中间件: Redis + MySQL + Nacos + Kafka + Zipkin
  *
- * http://127.0.0.1:8001/ecommerce-goods-service/doc.html
+ * http://127.0.0.1:8001/scacommerce-goods-service/doc.html
  *
  */
 @EnableJpaAuditing
