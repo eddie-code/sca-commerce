@@ -48,3 +48,21 @@ management:
   endpoint:
     health:
       show-details: always
+
+# Feign 的相关配置
+feign:
+  # feign 开启 gzip 压缩
+  compression:
+    # 压缩请求数据
+    request:
+      enabled: true
+      min-request-size: 1024
+      mime-types: text/xml,application.xml,application/json
+    # 压缩响应数据
+    response:
+      enabled: true
+  # 禁用默认的 http, 开启 okhttp
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
