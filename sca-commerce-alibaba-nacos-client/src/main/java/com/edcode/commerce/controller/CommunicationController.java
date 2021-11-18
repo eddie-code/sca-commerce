@@ -1,6 +1,7 @@
 package com.edcode.commerce.controller;
 
 import com.edcode.commerce.service.communication.feign.AuthorityFeignClient;
+import com.edcode.commerce.service.communication.feign.UseFeignApi;
 import com.edcode.commerce.service.communication.restTemplate.UseRestTemplateService;
 import com.edcode.commerce.service.communication.ribbon.UseRibbonService;
 import com.edcode.commerce.vo.JwtToken;
@@ -24,6 +25,7 @@ public class CommunicationController {
 	private final UseRestTemplateService restTemplateService;
 	private final UseRibbonService ribbonService;
 	private final AuthorityFeignClient feignClient;
+	private final UseFeignApi useFeignApi;
 
 	@PostMapping("/rest-template")
 	public JwtToken getTokenFromAuthorityService(@RequestBody UsernameAndPassword usernameAndPassword) {
@@ -48,6 +50,11 @@ public class CommunicationController {
 	@PostMapping("/token-by-feign")
 	public JwtToken getTokenByFeign(@RequestBody UsernameAndPassword usernameAndPassword) {
 		return feignClient.getTokenByFeign(usernameAndPassword);
+	}
+
+	@PostMapping("/thinking-in-feign")
+	public JwtToken thinkingInFeign(@RequestBody UsernameAndPassword usernameAndPassword) {
+		return useFeignApi.thinkingInFeign(usernameAndPassword);
 	}
 
 }
