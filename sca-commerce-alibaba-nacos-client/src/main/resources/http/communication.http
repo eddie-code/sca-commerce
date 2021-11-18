@@ -38,4 +38,13 @@ Content-Type: application/json
   "password": "25d55ad283aa400af464c76d713c07ad"
 }
 
+### 通过 OpenFeign 获取 Token
+POST http://127.0.0.1:8000/scacommerce-nacos-client/communication/token-by-feign
+Content-Type: application/json
+
+{
+  "username": "eddie@qq.com",
+  "password": "25d55ad283aa400af464c76d713c07ad"
+}
+
 ###
