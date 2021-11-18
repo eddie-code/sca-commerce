@@ -1,4 +1,4 @@
-package com.edcode.commerce.service.communication;
+package com.edcode.commerce.service.communication.restTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.edcode.commerce.constant.CommonConstant;

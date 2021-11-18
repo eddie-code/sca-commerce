@@ -1,6 +1,7 @@
 package com.edcode.commerce.controller;
 
-import com.edcode.commerce.service.communication.UseRestTemplateService;
+import com.edcode.commerce.service.communication.restTemplate.UseRestTemplateService;
+import com.edcode.commerce.service.communication.ribbon.UseRibbonService;
 import com.edcode.commerce.vo.JwtToken;
 import com.edcode.commerce.vo.UsernameAndPassword;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommunicationController {
 
 	private final UseRestTemplateService restTemplateService;
+	private final UseRibbonService ribbonService;
 
 	@PostMapping("/rest-template")
 	public JwtToken getTokenFromAuthorityService(@RequestBody UsernameAndPassword usernameAndPassword) {
@@ -29,6 +31,16 @@ public class CommunicationController {
 	@PostMapping("/rest-template-load-balancer")
 	public JwtToken getTokenFromAuthorityServiceWithLoadBalancer(@RequestBody UsernameAndPassword usernameAndPassword) {
 		return restTemplateService.getTokenFromAuthorityServiceWithLoadBalancer(usernameAndPassword);
+	}
+
+	@PostMapping("/ribbon")
+	public JwtToken getTokenFromAuthorityServiceByRibbon(@RequestBody UsernameAndPassword usernameAndPassword) {
+		return ribbonService.getTokenFromAuthorityServiceByRibbon(usernameAndPassword);
+	}
+
+	@PostMapping("/thinking-in-ribbon")
+	public JwtToken thinkingInRibbon(@RequestBody UsernameAndPassword usernameAndPassword) {
+		return ribbonService.thinkingInRibbon(usernameAndPassword);
 	}
 
 }
