@@ -28,7 +28,7 @@ public class NacosClientService {
      * @return
      */
     public List<ServiceInstance> getNacosClientInfo(String serviceId) {
-        log.info("request nacos client to get service instance info: [{}]", serviceId);
+        log.info("请求nacos客户端获取服务实例信息: [{}]", serviceId);
         return discoveryClient.getInstances(serviceId);
     }
 
