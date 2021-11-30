@@ -3,6 +3,7 @@ package com.edcode.commerce.controller;
 import com.alibaba.fastjson.JSON;
 import com.edcode.commerce.service.NacosClientService;
 import com.edcode.commerce.service.hystrix.NacosClientHystrixCommand;
+import com.edcode.commerce.service.hystrix.NacosClientHystrixObservableCommand;
 import com.edcode.commerce.service.hystrix.UseHystrixCommandAnnotation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
 
 import lombok.RequiredArgsConstructor;
 import rx.Observable;
+import rx.Observer;
 
 /**
  * @author eddie.lee
@@ -70,6 +74,47 @@ public class HystrixController {
 
         // execute = queue + get
         return serviceInstances01;
+    }
+
+    @GetMapping("/hystrix-observable-command")
+    public List<ServiceInstance> getServiceInstancesByServiceIdObservable(
+            @RequestParam String serviceId) {
+
+        List<String> serviceIds = Arrays.asList(serviceId, serviceId, serviceId);
+        List<List<ServiceInstance>> result = new ArrayList<>(serviceIds.size());
+
+        NacosClientHystrixObservableCommand observableCommand =
+                new NacosClientHystrixObservableCommand(nacosClientService, serviceIds);
+
+        // 异步执行命令
+        Observable<List<ServiceInstance>> observe = observableCommand.observe();
+
+        // 注册获取结果
+        observe.subscribe(
+                new Observer<List<ServiceInstance>>() {
+
+                    // 执行 onNext 之后再去执行 onCompleted
+                    @Override
+                    public void onCompleted() {
+                        log.info("all tasks is complete: [{}], [{}]",
+                                serviceId, Thread.currentThread().getName());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<ServiceInstance> instances) {
+                        result.add(instances);
+                    }
+                }
+        );
+
+        log.info("observable command result is : [{}], [{}]",
+                JSON.toJSONString(result), Thread.currentThread().getName());
+        return result.get(0);
     }
 
 }
