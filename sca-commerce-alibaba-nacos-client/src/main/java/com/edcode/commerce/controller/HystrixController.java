@@ -2,6 +2,7 @@ package com.edcode.commerce.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.edcode.commerce.service.NacosClientService;
+import com.edcode.commerce.service.hystrix.CacheHystrixCommand;
 import com.edcode.commerce.service.hystrix.NacosClientHystrixCommand;
 import com.edcode.commerce.service.hystrix.NacosClientHystrixObservableCommand;
 import com.edcode.commerce.service.hystrix.UseHystrixCommandAnnotation;
@@ -116,5 +117,41 @@ public class HystrixController {
                 JSON.toJSONString(result), Thread.currentThread().getName());
         return result.get(0);
     }
+
+    @GetMapping("/cache-hystrix-command")
+    public void cacheHystrixCommand(@RequestParam String serviceId) {
+
+        // 使用缓存 Command, 发起两次请求
+        CacheHystrixCommand command1 = new CacheHystrixCommand(
+                nacosClientService, serviceId
+        );
+        CacheHystrixCommand command2 = new CacheHystrixCommand(
+                nacosClientService, serviceId
+        );
+
+        List<ServiceInstance> result01 = command1.execute();
+        List<ServiceInstance> result02 = command2.execute();
+        log.info("result01, result02: [{}], [{}]",
+                JSON.toJSONString(result01), JSON.toJSONString(result02));
+
+        // 清除缓存
+        CacheHystrixCommand.flushRequestCache(serviceId);
+
+        // 使用缓存 Command, 发起两次请求
+        CacheHystrixCommand command3 = new CacheHystrixCommand(
+                nacosClientService, serviceId
+        );
+        CacheHystrixCommand command4 = new CacheHystrixCommand(
+                nacosClientService, serviceId
+        );
+
+        List<ServiceInstance> result03 = command3.execute();
+        List<ServiceInstance> result04 = command4.execute();
+        log.info("result03, result04: [{}], [{}]",
+                JSON.toJSONString(result03), JSON.toJSONString(result04));
+    }
+
+
+
 
 }

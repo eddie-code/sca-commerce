@@ -35,10 +35,10 @@ public class NacosClientService {
 //        }
 
         // NacosClientHystrixCommand 测试熔断
-        throw new RuntimeException("has some error");
+//        throw new RuntimeException("has some error");
 
-//        log.info("请求nacos客户端获取服务实例信息: [{}]", serviceId);
-//        return discoveryClient.getInstances(serviceId);
+        log.info("请求nacos客户端获取服务实例信息: [{}]", serviceId);
+        return discoveryClient.getInstances(serviceId);
     }
 
 }
