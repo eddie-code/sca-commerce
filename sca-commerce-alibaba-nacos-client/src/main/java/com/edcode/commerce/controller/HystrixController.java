@@ -3,6 +3,7 @@ package com.edcode.commerce.controller;
 import com.alibaba.fastjson.JSON;
 import com.edcode.commerce.service.NacosClientService;
 import com.edcode.commerce.service.hystrix.*;
+import com.edcode.commerce.service.hystrix.request_merge.NacosClientCollapseCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -199,5 +200,34 @@ public class HystrixController {
         return cacheHystrixCommandAnnotation.useCacheByAnnotation03(serviceId);
     }
 
+	/**
+	 * 编程方式实现请求合并
+	 */
+    @GetMapping("/request-merge")
+    public void requestMerge() throws Exception {
+
+        // 前三个请求会被合并
+        NacosClientCollapseCommand collapseCommand01 = new NacosClientCollapseCommand(nacosClientService, "sca-commerce-nacos-client1");
+        NacosClientCollapseCommand collapseCommand02 = new NacosClientCollapseCommand(nacosClientService, "sca-commerce-nacos-client2");
+        NacosClientCollapseCommand collapseCommand03 = new NacosClientCollapseCommand(nacosClientService, "sca-commerce-nacos-client3");
+
+        // 异步非阻塞获取结果
+        Future<List<ServiceInstance>> future01 = collapseCommand01.queue();
+        Future<List<ServiceInstance>> future02 = collapseCommand02.queue();
+        Future<List<ServiceInstance>> future03 = collapseCommand03.queue();
+
+        future01.get();
+        future02.get();
+        future03.get();
+
+        log.info("睡眠开始");
+        Thread.sleep(2000);
+        log.info("睡眠结束");
+
+        // 过了合并的时间窗口, 第四个请求单独发起
+        NacosClientCollapseCommand collapseCommand04 = new NacosClientCollapseCommand(nacosClientService, "sca-commerce-nacos-client4");
+        Future<List<ServiceInstance>> future04 = collapseCommand04.queue();
+        future04.get();
+    }
 
 }
