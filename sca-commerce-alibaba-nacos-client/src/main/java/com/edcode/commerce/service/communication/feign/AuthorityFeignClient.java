@@ -1,5 +1,6 @@
 package com.edcode.commerce.service.communication.feign;
 
+import com.edcode.commerce.service.communication.hystrix.AuthorityFeignClientFallback;
 import com.edcode.commerce.vo.JwtToken;
 import com.edcode.commerce.vo.UsernameAndPassword;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @blog blog.eddilee.cn
  * @description 与 Authority 服务通信的 Feign Client 接口定义
  */
-@FeignClient(contextId = "AuthorityFeignClient", value = "sca-commerce-authority-center")
+@FeignClient(
+		contextId = "AuthorityFeignClient",
+		value = "sca-commerce-authority-center",
+		fallback = AuthorityFeignClientFallback.class
+)
 public interface AuthorityFeignClient {
 
     /**
@@ -20,7 +25,11 @@ public interface AuthorityFeignClient {
      * @param usernameAndPassword
      * @return
      */
-	@RequestMapping(value = "/scacommerce-authority-center/authority/token", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@RequestMapping(
+			value = "/scacommerce-authority-center/authority/token",
+			method = RequestMethod.POST, consumes = "application/json",
+			produces = "application/json"
+	)
 	JwtToken getTokenByFeign(@RequestBody UsernameAndPassword usernameAndPassword);
 
 }

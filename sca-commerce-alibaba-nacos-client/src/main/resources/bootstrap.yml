@@ -66,3 +66,6 @@ feign:
     enabled: false
   okhttp:
     enabled: true
+  # 开启 OpenFeign 集成 Hystrix 开启后备模式
+  hystrix:
+    enabled: true
