@@ -30,4 +30,8 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/scacommerce-nacos-client/hystrix/request-merge
 Content-Type: application/json
 
+### 根据提供的 serviceId 获取实例信息
+GET http://127.0.0.1:8000/scacommerce-nacos-client/hystrix/request-merge-annotation
+Content-Type: application/json
+
 ###

@@ -230,4 +230,34 @@ public class HystrixController {
         future04.get();
     }
 
+    /**
+     * 注解的方式实现请求合并
+     */
+    @GetMapping("/request-merge-annotation")
+    public void requestMergeAnnotation() throws Exception {
+
+        Future<List<ServiceInstance>> future01 = nacosClientService.findNacosClientInfo(
+                "sca-commerce-nacos-client1"
+        );
+        Future<List<ServiceInstance>> future02 = nacosClientService.findNacosClientInfo(
+                "sca-commerce-nacos-client2"
+        );
+        Future<List<ServiceInstance>> future03 = nacosClientService.findNacosClientInfo(
+                "sca-commerce-nacos-client3"
+        );
+
+        future01.get();
+        future02.get();
+        future03.get();
+
+        log.info("睡眠开始");
+        Thread.sleep(2000);
+        log.info("睡眠结束");
+
+        Future<List<ServiceInstance>> future04 = nacosClientService.findNacosClientInfo(
+                "sca-commerce-nacos-client4"
+        );
+        future04.get();
+    }
+
 }
