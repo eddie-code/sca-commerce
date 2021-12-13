@@ -15,6 +15,7 @@
         <module>sca-commerce-authority-center</module>
         <module>sca-commerce-gateway</module>
         <module>sca-commerce-service</module>
+        <module>sca-commerce-hystrix-dashboard</module>
     </modules>
 
     <packaging>pom</packaging>
