@@ -1,6 +1,7 @@
 package com.edcode.commerce.service.communication.feign;
 
 import com.edcode.commerce.service.communication.hystrix.AuthorityFeignClientFallback;
+import com.edcode.commerce.service.communication.hystrix.AuthorityFeignClientFallbackFactory;
 import com.edcode.commerce.vo.JwtToken;
 import com.edcode.commerce.vo.UsernameAndPassword;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(
 		contextId = "AuthorityFeignClient",
 		value = "sca-commerce-authority-center",
-		fallback = AuthorityFeignClientFallback.class
+//		fallback = AuthorityFeignClientFallback.class // 不会返回错误信息与自定义提示
+		fallbackFactory = AuthorityFeignClientFallbackFactory.class  // 会返回错误信息与自定义提示
 )
 public interface AuthorityFeignClient {
 
