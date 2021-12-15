@@ -16,6 +16,7 @@
         <module>sca-commerce-gateway</module>
         <module>sca-commerce-service</module>
         <module>sca-commerce-hystrix-dashboard</module>
+        <module>sca-commerce-stream-client</module>
     </modules>
 
     <packaging>pom</packaging>
