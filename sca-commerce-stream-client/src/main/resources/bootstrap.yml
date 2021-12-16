@@ -5,77 +5,64 @@ server:
 
 spring:
   application:
-    name: sca-commerce-stream-client
+    name: sca-commerce-stream-service
   cloud:
     nacos:
       # 服务注册发现
       discovery:
         enabled: true # 如果不想使用 Nacos 进行服务注册和发现, 设置为 false 即可
         #server-addr: ${NACOS_ADDR:127.0.0.1}:8848
-        server-addr: ${NACOS_ADDR_1:127.0.0.1}:8848,${NACOS_ADDR_2:127.0.0.1}:8849,${NACOS_ADDR_3:127.0.0.1}:8850 # Nacos 服务器地址
+        server-addr: ${NACOS_ADDR_1:127.0.0.1}:8848,${NACOS_ADDR_2:127.0.0.1}:8858,${NACOS_ADDR_3:127.0.0.1}:8868 # Nacos 服务器地址
         namespace: ${NAMESPACE_ID:1adcfdd8-5763-4768-9a15-9c7157988950}
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
-    # 消息驱动的配置
     stream:
-      # SpringCloud Stream + Kafka
+      # SpringCloud Stream + RocketMQ
+#      rocketmq:
+#        binder:
+#          name-server: ${ROCKETMQ_SERVER:127.0.0.1}:${ROCKETMQ_PORT:9876}
       kafka:
         binder:
           brokers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
           auto-create-topics: true  # 如果设置为false, 就不会自动创建Topic, 你在使用之前需要手动创建好, 生产环境建议 false
-      # SpringCloud Stream + RocketMQ
-      #      rocketmq:
-      #        binder:
-      #          name-server: ${ROCKETMQ_SERVER:127.0.0.1}:${ROCKETMQ_PORT:9876}
-      # 开启 stream 分区支持
-      instanceCount: 1  # 消费者的总数
-      instanceIndex: 0  # 当前消费者的索引
-      bindings:
-        # 默认发送方
-        output:      # 这里用 Stream 给我们提供的默认 output 信道
-          destination: scacommerce-stream-client-default    # 消息发往的目的地, Kafka 中就是 Topic
-          content-type: text/plain    # 消息发送的格式, 接收端不用指定格式, 但是发送端要
-          # 消息分区
-          producer:
-            # partitionKeyExpression: payload.author  # 分区关键字, payload 指的是发送的对象, author 是对象中的属性
-            partitionCount: 1   # 分区大小
-            # 使用自定义的分区策略, 注释掉 partitionKeyExpression
-            partitionKeyExtractorName: edcodePartitionKeyExtractorStrategy
-            partitionSelectorName: edcodePartitionSelectorStrategy
-        # 默认接收方 （按道理是不同的项目工程 input 与 output）
-        input:      # 这里用 Stream 给我们提供的默认 input 信道
-          destination: scacommerce-stream-client-default
-          group: e-commerce-edcode-default
-          # 消费者开启分区支持
-          consumer:
-            partitioned: true
-        # Edcode 发送方
-        edcodeOutput:
-          destination: scacommerce-stream-client-edcode
-          content-type: text/plain
-        # Edcode 接收方
-        edcodeInput:
-          destination: scacommerce-stream-client-edcode
-          group: e-commerce-edcode-edcode
-
-  # spring-kafka 的配置
+        bindings:
+          # 默认发送方
+          output:      # 这里用 Stream 给我们提供的默认 output 信道
+            destination: scacommerce-stream-client-default    # 消息发往的目的地, Kafka 中就是 Topic
+            content-type: text/plain    # 消息发送的格式, 接收端不用指定格式, 但是发送端要
+          # 默认接收方 （按道理是不同的项目工程 input 与 output）
+          input:      # 这里用 Stream 给我们提供的默认 input 信道
+            destination: scacommerce-stream-client-default
+          # Edcode 发送方
+          edcodeOutput:
+            destination: scacommerce-stream-client-edcode
+            content-type: text/plain
+          # Edcode 接收方
+          edcodeInput:
+            destination: scacommerce-stream-client-edcode
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
     producer:
       retries: 3
     consumer:
       auto-offset-reset: latest
+  zipkin:
+    sender:
+      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
+    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
   sleuth:
     sampler:
       # RateLimitingSampler 抽样策略，设置了限速采样，spring.sleuth.sampler.probability 属性值无效
       rate: 100 # 每秒间隔接受的 trace 量
       # Probability 抽样策略
       probability: 1.0 # 采样比例，1.0 表示 100%, 默认：0.1
-  zipkin:
-    sender:
-      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
-    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
+  redis:
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000
+
 
 # 暴露端点
 management:
