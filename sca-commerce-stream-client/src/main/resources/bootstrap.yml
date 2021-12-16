@@ -22,6 +22,9 @@ spring:
 #      rocketmq:
 #        binder:
 #          name-server: ${ROCKETMQ_SERVER:127.0.0.1}:${ROCKETMQ_PORT:9876}
+      # 开启 stream 分区支持
+      instanceCount: 1  # 消费者的总数
+      instanceIndex: 0  # 当前消费者的索引
       kafka:
         binder:
           brokers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
@@ -31,16 +34,33 @@ spring:
           output:      # 这里用 Stream 给我们提供的默认 output 信道
             destination: scacommerce-stream-client-default    # 消息发往的目的地, Kafka 中就是 Topic
             content-type: text/plain    # 消息发送的格式, 接收端不用指定格式, 但是发送端要
+           # 消息分区
+            producer:
+              # partitionKeyExpression: payload.author  # 分区关键字, payload 指的是发送的对象, author 是对象中的属性
+              partitionCount: 1   # 分区大小
+              # 使用自定义的分区策略, 注释掉 partitionKeyExpression
+              partitionKeyExtractorName: edcodePartitionKeyExtractorStrategy  # com.edcode.commerce.partition.EdcodePartitionKeyExtractorStrategy
+              partitionSelectorName: edcodePartitionSelectorStrategy # com.edcode.commerce.partition.EdcodePartitionSelectorStrategy
+
           # 默认接收方 （按道理是不同的项目工程 input 与 output）
           input:      # 这里用 Stream 给我们提供的默认 input 信道
             destination: scacommerce-stream-client-default
+            # 消息分组
+            group: sca-commerce-edcode-default
+            # 消费者开启分区支持
+            consumer:
+              partitioned: true
+
           # Edcode 发送方
           edcodeOutput:
             destination: scacommerce-stream-client-edcode
             content-type: text/plain
+
           # Edcode 接收方
           edcodeInput:
             destination: scacommerce-stream-client-edcode
+            # 消息分组
+            group: sca-commerce-edcode-edcode
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
     producer:
