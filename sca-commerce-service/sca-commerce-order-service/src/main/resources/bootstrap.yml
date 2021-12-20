@@ -1,0 +1,99 @@
+server:
+  port: 8002
+  servlet:
+    context-path: /scacommerce-order-service
+
+spring:
+  main:
+    allow-bean-definition-overriding: true  # 允许同名的 bean 出现
+  application:
+    name: sca-commerce-order-service
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
+          auto-create-topics: true
+      bindings:
+        logisticsOutput:
+          destination: e-commerce-topic   # kafka topic
+          content-type: text/plain
+#    alibaba:
+#      seata:
+#        tx-service-group: sca-ecommerce # seata 全局事务分组
+    nacos:
+      # 服务注册发现
+      discovery:
+        enabled: true # 如果不想使用 Nacos 进行服务注册和发现, 设置为 false 即可
+        #server-addr: ${NACOS_ADDR:127.0.0.1}:8848
+        server-addr: ${NACOS_ADDR_1:127.0.0.1}:8848,${NACOS_ADDR_2:127.0.0.1}:8858,${NACOS_ADDR_3:127.0.0.1}:8868 # Nacos 服务器地址
+        namespace: ${NAMESPACE_ID:1adcfdd8-5763-4768-9a15-9c7157988950}
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+    # 基于 openfeign 实现： 开启 ribbon 重试机制, 即获取服务失败是否从另外一个节点重试
+    loadbalancer:
+      retry:
+        enabled: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
+    producer:
+      retries: 3
+    consumer:
+      auto-offset-reset: latest
+  sleuth:
+    sampler:
+      probability: 1.0  # 采样比例, 1.0 表示 100%, 默认是 0.1
+  zipkin:
+    sender:
+      type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
+    base-url: http://${ZIPKIN_URL:127.0.0.1}:${ZIPKIN_PORT:9411}/
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+    open-in-view: false
+  datasource:
+    # 数据源
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:sca_commerce}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 4
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 45000
+      auto-commit: true
+      pool-name: ImoocEcommerceHikariCP
+  redis:
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000
+
+# feign 相关的配置
+feign:
+  hystrix:
+    enabled: true   # Hystrix 默认是关闭的
+  client:
+    config:
+      default:  # 全局的
+        connectTimeout: 2000  # 默认的连接超时时间是 10s
+        readTimeout: 5000
+
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

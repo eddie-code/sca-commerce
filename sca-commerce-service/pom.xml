@@ -16,6 +16,7 @@
         <module>sca-commerce-account-service</module>
         <module>sca-commerce-service-sdk</module>
         <module>sca-commerce-goods-service</module>
+        <module>sca-commerce-order-service</module>
     </modules>
     <packaging>pom</packaging> <!-- 父模块不能 jar 只能是 pom -->
 
