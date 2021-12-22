@@ -16,7 +16,7 @@ import java.util.List;
  * @blog blog.eddilee.cn
  * @description 安全的商品服务 Feign 接口
  */
-@FeignClient(contextId = "SecuredGoodsClient", value = "e-commerce-goods-service", fallback = GoodsClientHystrix.class)
+@FeignClient(contextId = "SecuredGoodsClient", value = "sca-commerce-goods-service", fallback = GoodsClientHystrix.class)
 public interface SecuredGoodsClient {
 
 	/**

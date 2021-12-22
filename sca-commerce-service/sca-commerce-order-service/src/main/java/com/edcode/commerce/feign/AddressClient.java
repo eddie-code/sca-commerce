@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @blog blog.eddilee.cn
  * @description 用户账户服务 Feign 接口(安全的)
  */
-@FeignClient(contextId = "AddressClient", value = "e-commerce-account-service", fallback = AddressClientHystrix.class)
+@FeignClient(contextId = "AddressClient", value = "sca-commerce-account-service", fallback = AddressClientHystrix.class)
 public interface AddressClient {
 
 	/**
