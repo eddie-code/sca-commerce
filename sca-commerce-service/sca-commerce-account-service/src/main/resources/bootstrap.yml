@@ -17,6 +17,9 @@ spring:
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
+    alibaba:
+      seata:
+        tx-service-group: sca-ecommerce # seata 全局事务分组
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
     producer:

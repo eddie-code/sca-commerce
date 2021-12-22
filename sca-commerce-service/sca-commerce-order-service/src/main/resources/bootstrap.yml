@@ -16,11 +16,11 @@ spring:
           auto-create-topics: true
       bindings:
         logisticsOutput:
-          destination: e-commerce-topic   # kafka topic
+          destination: sca-commerce-topic   # kafka topic
           content-type: text/plain
-#    alibaba:
-#      seata:
-#        tx-service-group: sca-ecommerce # seata 全局事务分组
+    alibaba:
+      seata:
+        tx-service-group: sca-ecommerce # seata 全局事务分组
     nacos:
       # 服务注册发现
       discovery:

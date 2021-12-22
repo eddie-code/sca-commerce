@@ -17,6 +17,9 @@ spring:
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
+    alibaba:
+      seata:
+        tx-service-group: sca-ecommerce # seata 全局事务分组
   sleuth:
     sampler:
       probability: 1.0  # 采样比例, 1.0 表示 100%, 默认是 0.1
