@@ -20,7 +20,7 @@ import java.util.List;
 public class OrderInfo {
 
 	@ApiModelProperty(value = "用户地址表主键 id")
-	private Long userAddress;
+	private Long userAddressId;
 
     @ApiModelProperty(value = "订单中的商品信息")
 	private List<OrderItem> orderItems;

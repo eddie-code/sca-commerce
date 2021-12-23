@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
+
+import lombok.Builder;
 import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
 import javax.persistence.EntityListeners;
@@ -22,6 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
  * @author eddie.lee
  * @date 2021-12-20 20:35:06
  */
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,18 +32,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Table(name = "t_scacommerce_order")
 @EntityListeners(AuditingEntityListener.class) // 作用：自动更新时间, 需要配合 @EnableJpaAuditing 使用
 public class ScaCommerceOrder implements Serializable {
-
-	/**
-	 *
-	 * @param userId
-	 * @param addressId
-	 * @param orderDetail
-	 */
-	public ScaCommerceOrder(Long userId, Long addressId, String orderDetail) {
-		this.userId = userId;
-		this.addressId = addressId;
-		this.orderDetail = orderDetail;
-	}
 
 	/**
 	 * 自增主键

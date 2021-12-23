@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface AddressClient {
 
 	/**
-	 * <h2>根据 id 查询地址信息</h2>
+	 * 根据 id 查询地址信息
 	 */
 	@RequestMapping(value = "/scacommerce-account-service/address/address-info-by-table-id", method = RequestMethod.POST)
     CommonResponse<AddressInfo> getAddressInfoByTablesId(@RequestBody TableId tableId);
