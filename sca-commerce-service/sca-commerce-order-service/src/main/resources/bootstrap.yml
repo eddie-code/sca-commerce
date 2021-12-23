@@ -15,7 +15,7 @@ spring:
           brokers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
           auto-create-topics: true
       bindings:
-        logisticsOutput:
+        logisticsOutput: ## 输出信道名称
           destination: sca-commerce-topic   # kafka topic
           content-type: text/plain
     alibaba:
