@@ -11,6 +11,7 @@ import com.edcode.commerce.feign.NotSecuredBalanceClient;
 import com.edcode.commerce.feign.NotSecuredGoodsClient;
 import com.edcode.commerce.feign.SecuredGoodsClient;
 import com.edcode.commerce.filter.AccessContext;
+import com.edcode.commerce.goods.DeductGoodsInventory;
 import com.edcode.commerce.goods.SimpleGoodsInfo;
 import com.edcode.commerce.order.LogisticsMessage;
 import com.edcode.commerce.order.OrderInfo;
@@ -22,12 +23,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import javax.print.attribute.standard.PageRanges;
+import java.awt.print.Pageable;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -167,8 +171,127 @@ public class OrderServiceImpl implements IOrderService {
         );
 	}
 
+	// 获取当前用户的订单信息: 带有分页
 	@Override
 	public PageSimpleOrderDetail getSimpleOrderDetailByPage(int page) {
-		return null;
+
+		if (page <= 0) {
+			// 默认是第一页
+			page = 1;
+		}
+
+		// 这里分页的规则是：1页 10条数据，按照 id 倒序排序
+		PageRequest pageRequest = PageRequest.of(-1, 10, Sort.by("id").descending());
+
+		Page<ScaCommerceOrder> orderPage = scaCommerceOrderDao.findAllByUserId(
+				AccessContext.getLoginUserInfo().getId(),
+				pageRequest
+		);
+		List<ScaCommerceOrder> orders = orderPage.getContent();
+
+		// 如果是空， 直接返回空数组
+		if (CollectionUtils.isEmpty(orders)) {
+			return new PageSimpleOrderDetail(Collections.emptyList(),false);
+		}
+
+		// 获取当前订单中所有的 goodsId 这个 set 不可能为空或者是 null, 否则，代码一定有 bug
+		Set<Long> goodsIdsInOrders = new HashSet<>();
+		orders.forEach(o -> {
+			List<DeductGoodsInventory> goodsAndCount = JSON.parseArray(
+					o.getOrderDetail(), DeductGoodsInventory.class
+			);
+			goodsIdsInOrders.addAll(goodsAndCount.stream()
+					.map(DeductGoodsInventory::getGoodsId)
+					.collect(Collectors.toSet()));
+		});
+
+		assert CollectionUtils.isNotEmpty(goodsIdsInOrders);
+
+		// 是否还有更多页： 总页面是否大于当前给定的页
+		boolean hasMore = orderPage.getTotalPages() > page;
+
+		// 获取商品信息
+		// securedGoodsClient 是安全的，做兜底。保证接口不抛出异常
+		List<SimpleGoodsInfo> goodsInfos = securedGoodsClient.getSimpleGoodsInfoByTableId(
+				new TableId(goodsIdsInOrders.stream()
+						.map(TableId.Id::new)
+						.collect(Collectors.toList()))
+		).getData();
+
+		// 获取地址信息
+		AddressInfo addressInfo = addressClient.getAddressInfoByTablesId(
+				new TableId(orders.stream()
+						.map(o -> new TableId.Id(o.getAddressId()))
+						.distinct()
+						.collect(Collectors.toList()))
+		).getData();
+
+		// 组装订单中的商品, 地址信息 -> 订单信息
+		return new PageSimpleOrderDetail(
+				assembleSimpleOrderDetail(orders, goodsInfos, addressInfo),
+				hasMore
+		);
+
 	}
+
+	/**
+	 * 组装订单详情
+	 *
+	 * @return
+	 */
+	private List<PageSimpleOrderDetail.SingleOrderItem> assembleSimpleOrderDetail(
+			List<ScaCommerceOrder> orders,
+			List<SimpleGoodsInfo> goodsInfos,
+			AddressInfo addressInfo) {
+
+		// goodsId -> SimpleGoodsInfo
+		Map<Long, SimpleGoodsInfo> id2GoodsInfo = goodsInfos.stream()
+				// 使用Stream时，要将它转换成其他容器或Map。这时候，就会使用到Function.identity()
+				.collect(Collectors.toMap(SimpleGoodsInfo::getId, Function.identity()));
+		// addressId -> AddressInfo.AddressItem
+		Map<Long, AddressInfo.AddressItem> id2AddressItem = addressInfo.getAddressItems()
+				.stream().collect(
+						// t -> t 等价 Function.identity()
+						Collectors.toMap(AddressInfo.AddressItem::getId, t -> t)
+				);
+
+		List<PageSimpleOrderDetail.SingleOrderItem> result = new ArrayList<>(orders.size());
+		orders.forEach(o -> {
+
+			PageSimpleOrderDetail.SingleOrderItem orderItem = new PageSimpleOrderDetail.SingleOrderItem();
+			orderItem.setId(o.getId());
+			// getOrDefault() 当Map集合中有这个key时，就使用这个key对应的value值，如果没有就使用默认值defaultValue
+			orderItem.setUserAddress(id2AddressItem.getOrDefault(o.getAddressId(), new AddressInfo.AddressItem(-1L)).toUserAddress());
+			orderItem.setGoodsItems(buildOrderGoodsItem(o, id2GoodsInfo));
+
+			result.add(orderItem);
+		});
+
+		return result;
+	}
+
+	/**
+	 * 构造订单中的商品信息
+	 *
+	 * @param order
+	 * @param id2GoodsInfo
+	 * @return
+	 */
+	private List<PageSimpleOrderDetail.SingleOrderGoodsItem> buildOrderGoodsItem(ScaCommerceOrder order, Map<Long, SimpleGoodsInfo> id2GoodsInfo){
+		List<PageSimpleOrderDetail.SingleOrderGoodsItem> goodsItems = new ArrayList<>();
+		List<DeductGoodsInventory> goodsAndCount = JSON.parseArray(
+				order.getOrderDetail(), DeductGoodsInventory.class
+		);
+
+		goodsAndCount.forEach(gc -> {
+			PageSimpleOrderDetail.SingleOrderGoodsItem goodsItem = new PageSimpleOrderDetail.SingleOrderGoodsItem();
+			goodsItem.setCount(gc.getCount());
+			goodsItem.setSimpleGoodsInfo(id2GoodsInfo.getOrDefault(gc.getGoodsId(), new SimpleGoodsInfo(-1L)));
+
+			goodsItems.add(goodsItem);
+		});
+
+		return goodsItems;
+	}
+
 }
