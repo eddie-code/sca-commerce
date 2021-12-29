@@ -19,7 +19,7 @@ spring:
             context-path: ${server.servlet.context-path}/actuator
     alibaba:
       seata:
-        tx-service-group: sca-ecommerce # seata 全局事务分组
+        tx-service-group: sca_commerce_group # seata 全局事务分组
   sleuth:
     sampler:
       probability: 1.0  # 采样比例, 1.0 表示 100%, 默认是 0.1
@@ -79,3 +79,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+seata:
+  service:
+    grouplist:
+      sca_commerce_group: 192.168.3.250:8091 # file.conf 指定的 ip：port 怎么改都是 127.0.0.1，通过这里配置才能正常连接 seata

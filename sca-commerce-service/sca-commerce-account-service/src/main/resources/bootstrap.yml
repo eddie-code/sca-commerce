@@ -19,7 +19,7 @@ spring:
             context-path: ${server.servlet.context-path}/actuator
     alibaba:
       seata:
-        tx-service-group: sca-ecommerce # seata 全局事务分组
+        tx-service-group: sca_commerce_group # seata 全局事务分组
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
     producer:
@@ -59,7 +59,7 @@ spring:
       connection-timeout: 30000
       max-lifetime: 45000
       auto-commit: true
-      pool-name: ImoocEcommerceHikariCP
+      pool-name: ScaCommerceHikariCP
   redis:
     database: 0
     host: ${REDIS_HOST:localhost}
@@ -75,3 +75,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+seata:
+  service:
+    grouplist:
+      sca_commerce_group: 192.168.3.250:8091 # file.conf 指定的 ip：port 怎么改都是 127.0.0.1，通过这里配置才能正常连接 seata
