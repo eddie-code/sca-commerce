@@ -1,0 +1,21 @@
+### 创建订单
+POST http://127.0.0.1:9001/edcode/scacommerce-order-service/order/create-order
+Content-Type: application/json
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiYWZjNGRhN2ItODc4MC00MzZmLTgyNDctZjU4MGQ2OTJkOTMxIiwiZXhwIjoxNjQwNzkzNjAwfQ.XZCgTCWgBGqHusH7DrnCq04VndXkqip7TuOme2_EBsqwy_Q8QTlSJWVCjJ6FB-zFkHifRkvQ0ndmMAXjP66pcsoZJyKNn3DWskqZCJWe7Ix3i5EGeh2UyKFUVAocPKF1ycWhp4AMbBcnZQE1xLkYZAC4z-Xz1deznZZuU2xM0BYwMpW7VcNun8rMh9n83Vg0w-bfDiL9i48KYD1wkSO6o3XH_EbJRBJyyYfGhdi-TwPP8--32mNuvj6oF_VGsT1vJ7mG2josf6D3-01KDavgfI6CrquHLcgUHWQNTU9z8fj5GtfPF0gTpdtpI4ucVtzsz-RbvrdaOTFbM2knGodCNw
+
+{
+  "userAddressId": 1,
+  "orderItems": [
+    {
+      "goodsId": 1,
+      "count": 5
+    }
+  ]
+}
+
+### 查询订单
+GET http://127.0.0.1:9001/edcode/scacommerce-order-service/order/order-detail
+#GET http://127.0.0.1:9001/edcode/scacommerce-order-service/order/order-detail?page=2
+Accept: application/json
+sca-commerce-user: eyJhbGciOiJSUzI1NiJ9.eyJzY2EtY29tbWVyY2UtdXNlciI6IntcImlkXCI6MTEsXCJ1c2VybmFtZVwiOlwiZWRkaWVAcXEuY29tXCJ9IiwianRpIjoiYWZjNGRhN2ItODc4MC00MzZmLTgyNDctZjU4MGQ2OTJkOTMxIiwiZXhwIjoxNjQwNzkzNjAwfQ.XZCgTCWgBGqHusH7DrnCq04VndXkqip7TuOme2_EBsqwy_Q8QTlSJWVCjJ6FB-zFkHifRkvQ0ndmMAXjP66pcsoZJyKNn3DWskqZCJWe7Ix3i5EGeh2UyKFUVAocPKF1ycWhp4AMbBcnZQE1xLkYZAC4z-Xz1deznZZuU2xM0BYwMpW7VcNun8rMh9n83Vg0w-bfDiL9i48KYD1wkSO6o3XH_EbJRBJyyYfGhdi-TwPP8--32mNuvj6oF_VGsT1vJ7mG2josf6D3-01KDavgfI6CrquHLcgUHWQNTU9z8fj5GtfPF0gTpdtpI4ucVtzsz-RbvrdaOTFbM2knGodCNw

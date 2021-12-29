@@ -25,12 +25,11 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.print.attribute.standard.PageRanges;
-import java.awt.print.Pageable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -181,11 +180,13 @@ public class OrderServiceImpl implements IOrderService {
 		}
 
 		// 这里分页的规则是：1页 10条数据，按照 id 倒序排序
-		PageRequest pageRequest = PageRequest.of(-1, 10, Sort.by("id").descending());
+
+		// package org.springframework.data.domain
+		Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
 
 		Page<ScaCommerceOrder> orderPage = scaCommerceOrderDao.findAllByUserId(
 				AccessContext.getLoginUserInfo().getId(),
-				pageRequest
+				pageable
 		);
 		List<ScaCommerceOrder> orders = orderPage.getContent();
 
