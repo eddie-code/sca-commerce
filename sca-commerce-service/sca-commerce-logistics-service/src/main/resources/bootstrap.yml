@@ -1,13 +1,11 @@
 server:
-  port: 8002
-  servlet:
-    context-path: /scacommerce-order-service
+  port: 8004
 
 spring:
   main:
-    allow-bean-definition-overriding: true  # 允许同名的 bean 出现
+    allow-bean-definition-overriding: true
   application:
-    name: sca-commerce-order-service
+    name: sca-commerce-logistics-service
   cloud:
     stream:
       kafka:
@@ -15,7 +13,7 @@ spring:
           brokers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
           auto-create-topics: true
       bindings:
-        logisticsOutput: ## 输出信道名称
+        logisticsInput:
           destination: sca-commerce-topic   # kafka topic
           content-type: text/plain
     alibaba:
@@ -28,13 +26,7 @@ spring:
         #server-addr: ${NACOS_ADDR:127.0.0.1}:8848
         server-addr: ${NACOS_ADDR_1:127.0.0.1}:8848,${NACOS_ADDR_2:127.0.0.1}:8858,${NACOS_ADDR_3:127.0.0.1}:8868 # Nacos 服务器地址
         namespace: ${NAMESPACE_ID:1adcfdd8-5763-4768-9a15-9c7157988950}
-        metadata:
-          management:
-            context-path: ${server.servlet.context-path}/actuator
-    # 基于 openfeign 实现： 开启 ribbon 重试机制, 即获取服务失败是否从另外一个节点重试
-    loadbalancer:
-      retry:
-        enabled: true
+  # 引入 sleuth + zipkin + kafka
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1}:${KAFKA_PORT:9092}
     producer:
@@ -47,7 +39,7 @@ spring:
   zipkin:
     sender:
       type: ${ZIPKIN_KAFKA_SENDER:web} # 默认是 web
-    base-url: http://${ZIPKIN_URL:127.0.0.1}:${ZIPKIN_PORT:9411}/
+    base-url: http://${ZIPKIN_URL:localhost}:${ZIPKIN_PORT:9411}/
   jpa:
     show-sql: true
     hibernate:
@@ -77,16 +69,6 @@ spring:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
     timeout: 5000
-
-# feign 相关的配置
-feign:
-  hystrix:
-    enabled: true   # Hystrix 默认是关闭的
-  client:
-    config:
-      default:  # 全局的
-        connectTimeout: 2000  # 默认的连接超时时间是 10s
-        readTimeout: 5000
 
 # 暴露端点
 management:

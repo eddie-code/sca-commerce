@@ -79,4 +79,4 @@ management:
 seata:
   service:
     grouplist:
-      sca_commerce_group: 192.168.3.250:8091 # file.conf 指定的 ip：port 怎么改都是 127.0.0.1，通过这里配置才能正常连接 seata
+      sca_commerce_group: ${SEATA_ADDR:127.0.0.1}:${SEATA_PORT:8091} # file.conf 指定的 ip：port 怎么改都是 127.0.0.1，通过这里配置才能正常连接 seata
