@@ -1,6 +1,7 @@
 package com.edcode.commerce.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @description 物流表实体类定义
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -75,10 +77,4 @@ public class ScaCommerceLogistics {
     @Column(name = "update_time", nullable = false)
     private Date updateTime;
 
-    public ScaCommerceLogistics(Long userId, Long orderId, Long addressId, String extraInfo) {
-        this.userId = userId;
-        this.orderId = orderId;
-        this.addressId = addressId;
-        this.extraInfo = StringUtils.isNotBlank(extraInfo) ? extraInfo : "{}";
-    }
 }
