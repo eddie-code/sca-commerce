@@ -39,3 +39,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+# 开启或关闭 @SentinelRestTemplate 注解
+resttemplate:
+  sentinel:
+    enabled: true
