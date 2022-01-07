@@ -1,0 +1,27 @@
+// 复制如下到Nacos
+
+[
+  {
+    "resource": "byResource",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 1,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false
+  }
+]
+
+
+// 说明部分，不复制
+[
+  {
+    "resource": "byResource", // 资源名：com.edcode.commerce.controller.RateLimitController#byResource
+    "limitApp": "default", // 流控针对来源
+    "grade": 1, // 0=并发线程数、1=QPS（常用）
+    "count": 1, // 限流的阈值，这里是一秒钟通过一个请求
+    "strategy": 0, // 0=直接、1=关联、2=链路
+    "controlBehavior": 0, // 0=快速失败、1=Warm Up 2=排队等待
+    "clusterMode": false // 是否集群
+  }
+]
