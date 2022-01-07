@@ -18,10 +18,10 @@ public class SentinelConfig {
      * 包装 RestTemplate
      */
     @Bean
-    @SentinelRestTemplate(
-            fallback = "handleFallback", fallbackClass = RestTemplateExceptionUtil.class,
-            blockHandler = "handleBlock", blockHandlerClass = RestTemplateExceptionUtil.class
-    )
+//    @SentinelRestTemplate(
+//            fallback = "handleFallback", fallbackClass = RestTemplateExceptionUtil.class,
+//            blockHandler = "handleBlock", blockHandlerClass = RestTemplateExceptionUtil.class
+//    )
     public RestTemplate restTemplate() {
         // 可以对其做一些业务相关的配置
         return new RestTemplate();

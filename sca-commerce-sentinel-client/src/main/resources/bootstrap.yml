@@ -44,3 +44,8 @@ management:
 resttemplate:
   sentinel:
     enabled: true
+
+# 打开 Sentinel 对 Feign 的支持
+feign:
+  sentinel:
+    enabled: true
