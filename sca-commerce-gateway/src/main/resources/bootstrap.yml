@@ -17,6 +17,43 @@ spring:
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
+    sentinel:
+      # 配置 sentinel dashboard 地址
+      transport:
+        dashboard: ${SENTINEL_ADDR:127.0.0.1}:${SENTINEL_WEB_PORT:7777}
+        port: ${SENTINEL_PORT:8719} # 会在应用对应的机器上启动一个 Http Server, 该 Server 会与 Sentinel 控制台做交互
+      # 服务启动直接建立心跳连接
+      eager: true
+      datasource:
+        # 名称任意, 代表数据源
+        ds1:
+          nacos:
+            # NacosDataSourceProperties.java 中定义
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: gateway-flow-rule-sentinel
+            namespace: ${spring.cloud.nacos.discovery.namespace}
+            groupId: DEFAULT_GROUP
+            data-type: json
+            # 规则类型: com.alibaba.cloud.sentinel.datasource.RuleType
+            # FlowRule 就是限流规则
+            rule-type: gw-flow
+        ds2:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            namespace: ${spring.cloud.nacos.discovery.namespace}
+            data-id: gateway-flow-rule-api-sentinel
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: gw-api-group
+# Sentinel 对 Spring Cloud Gateway 的专属配置项，对应 SentinelGatewayProperties 类
+      scg:
+        order: -2147483648 # 过滤器顺序，默认为 -2147483648 最高优先级
+        fallback:
+          mode: response # fallback 模式，目前有三种：response、redirect、空(可以实现对 fallback 的自定义处理逻辑)
+          response-status: 429 # 响应状态码，默认为 429
+          response-body: '{"code":429,"message":"你被限流鸟~"}' # 响应内容，默认为空
+          content-type: application/json # 内容类型，默认为 application/json
+#          redirect: https://www.baidu.com  # 对应 redirect 模式的配置fallback配置
     # 静态路由
   #    gateway:
   #      routes:

@@ -1,0 +1,14 @@
+[
+  {
+    "apiName": "nacos-client-api",
+    "predicateItems": [
+      {
+        "pattern": "/edcode/scacommerce-nacos-client/nacos-client/project-config"
+      },
+      {
+        "pattern": "/edcode/scacommerce-nacos-client/**",
+        "matchStrategy": 1
+      }
+    ]
+  }
+]
